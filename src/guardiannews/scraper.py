@@ -12,7 +12,7 @@ from rich import print
 
 class GuardianSpider(object):
     def __init__(self):
-        self.base_url: str = "https://www.theguardian.com"
+        self.base_url: str = "https://www.theguardian.com/"  # tambah / baru bisa. Mengapa tidak langsung tambah internasional?
         # self.category: Optional[str] = category
         self.date: str = datetime.now().strftime("/%Y/%b/%d/")
         # self.subcategory: Optional[str] = subcategory
@@ -26,9 +26,13 @@ class GuardianSpider(object):
         print("Site Status Code: ", res.status_code)
 
         #  response checking
-        f = open("response.html", 'w+')
-        f.write(res.text)
-        f.close()
+        # f = open("response.html", 'w+')
+        # f.write(res.text)
+        # f.close()
+        # Menambah encoding utf-8
+        with open("response.html", "w", encoding="utf-8") as f:
+            f.write(res.text)
+            f.close()
 
         # scrape process
         soup: BeautifulSoup = BeautifulSoup(res.text, "html.parser")
@@ -79,6 +83,22 @@ class GuardianSpider(object):
 
     def get_news_by_category(self):
         pass
+
+    def get_news_by_category_opinion(self, soup: BeautifulSoup):
+        news_opinion = []
+        opinions = soup.find('div', attrs={'id': 'container-opinion'}).find_all('li')
+
+        # iterasi
+        for opinion in opinions:
+            news = {
+                'title': opinion.find("span", attrs={"class": "show-underline"}).text.strip(),
+                'news link': opinion.find("a").get("href")
+            }
+            news_opinion.append(news)
+
+        # hasil
+        with open('news_opinion.json', 'w') as json_file:
+            json.dump(news_opinion, json_file)
 
     def get_news_by_subcategory(self):
         pass
