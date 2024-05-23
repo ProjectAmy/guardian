@@ -14,6 +14,7 @@ class Run(object):
         categories = self.spider.get_category(soup)
         print(categories)
 
+    # tinggal di copas dan rubah category dan link
     def scrape_by_category_opinion(self):
         soup = self.spider.get_response(os.path.join(self.spider.base_url, "uk/commentisfree"))
         by_category = self.spider.get_news_by_category(soup)
