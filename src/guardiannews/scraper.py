@@ -12,7 +12,7 @@ from rich import print
 
 class GuardianSpider(object):
     def __init__(self):
-        self.base_url: str = "https://www.theguardian.com/"  # tambah / baru bisa. Mengapa tidak langsung tambah internasional?
+        self.base_url: str = "https://www.theguardian.com/"  # tambah / baru bisa
         # self.category: Optional[str] = category
         self.date: str = datetime.now().strftime("/%Y/%b/%d/")
         # self.subcategory: Optional[str] = subcategory
@@ -78,9 +78,6 @@ class GuardianSpider(object):
 
         return categories
 
-    def get_spesific_news(self):
-        pass
-
     def get_news_by_category(self, soup: BeautifulSoup):
         news_by_category = []
         articles = soup.find('main', attrs={'data-layout': 'FrontLayout'}).find_all('li')
@@ -101,4 +98,7 @@ class GuardianSpider(object):
         return news_by_category
 
     def get_news_by_subcategory(self):
+        pass
+
+    def get_spesific_news(self):
         pass
