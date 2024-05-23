@@ -81,24 +81,24 @@ class GuardianSpider(object):
     def get_spesific_news(self):
         pass
 
-    def get_news_by_category(self):
-        pass
-
-    def get_news_by_category_opinion(self, soup: BeautifulSoup):
-        news_opinion = []
-        opinions = soup.find('div', attrs={'id': 'container-opinion'}).find_all('li')
+    def get_news_by_category(self, soup: BeautifulSoup):
+        news_by_category = []
+        articles = soup.find('main', attrs={'data-layout': 'FrontLayout'}).find_all('li')
 
         # iterasi
-        for opinion in opinions:
-            news = {
-                'title': opinion.find("span", attrs={"class": "show-underline"}).text.strip(),
-                'news link': opinion.find("a").get("href")
-            }
-            news_opinion.append(news)
+        for article in articles:
+            title = article.find("span", attrs={"class": "show-underline"})
+            link = article.find("a")
 
-        # hasil
-        with open('news_opinion.json', 'w') as json_file:
-            json.dump(news_opinion, json_file)
+            # dicek karena ada li yang kosong
+            if title and link:
+                news = {
+                    'title': title.text.strip(),
+                    'news link': link.get("href")
+                }
+                news_by_category.append(news)
+
+        return news_by_category
 
     def get_news_by_subcategory(self):
         pass
