@@ -21,7 +21,7 @@ class Run(object):
         soup = self.spider.make_soup("uk/commentisfree")
         by_category = self.spider.get_news_by_category(soup)
 
-        # hasil
+        # membuat file json
         with open('news_by_category_opinion.json', 'w') as json_file:
             json.dump(by_category, json_file)
 

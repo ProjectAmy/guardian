@@ -41,7 +41,7 @@ class GuardianSpider(object):
 
         return soup
 
-    # membuat method baru
+    # membuat method baru agar lebih efisien
     def make_soup(self, link):
         soup = self.get_response(os.path.join(self.base_url, link))
         return soup
