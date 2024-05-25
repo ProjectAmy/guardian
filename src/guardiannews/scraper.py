@@ -1,5 +1,6 @@
 import json
 import requests
+import os
 
 from datetime import datetime
 from typing import Any
@@ -16,10 +17,11 @@ class GuardianSpider(object):
         # self.category: Optional[str] = category
         self.date: str = datetime.now().strftime("/%Y/%b/%d/")
         # self.subcategory: Optional[str] = subcategory
+        self.header = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
 
     def get_response(self, url: str) -> BeautifulSoup:
         headers: dict[str, Any] = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+            "User-Agent": self.header
         }
 
         res = requests.get(url=url, headers=headers)
@@ -37,6 +39,11 @@ class GuardianSpider(object):
         # scrape process
         soup: BeautifulSoup = BeautifulSoup(res.text, "html.parser")
 
+        return soup
+
+    # membuat method baru
+    def make_soup(self, link):
+        soup = self.get_response(os.path.join(self.base_url, link))
         return soup
 
     def get_latest_news(self, soup: BeautifulSoup):
