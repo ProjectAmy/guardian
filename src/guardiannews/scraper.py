@@ -8,7 +8,8 @@ from bs4 import BeautifulSoup
 from rich import print
 
 
-# url = "https://www.theguardian.com/ |artanddesign |/2024/apr/24/|  claudette-johnson-art-cotton-capital-nominated-for-turner-prize"
+# url = "https://www.theguardian.com/ |artanddesign |/2024/apr/24/|
+# claudette-johnson-art-cotton-capital-nominated-for-turner-prize"
 
 
 class GuardianSpider(object):
@@ -17,7 +18,8 @@ class GuardianSpider(object):
         # self.category: Optional[str] = category
         self.date: str = datetime.now().strftime("/%Y/%b/%d/")
         # self.subcategory: Optional[str] = subcategory
-        self.header = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+        self.header = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) "
+                       "Chrome/123.0.0.0 Safari/537.36")
 
     def get_response(self, url: str) -> BeautifulSoup:
         headers: dict[str, Any] = {
@@ -45,6 +47,12 @@ class GuardianSpider(object):
     def make_soup(self, link):
         soup = self.get_response(os.path.join(self.base_url, link))
         return soup
+
+    # membuat file json
+    def make_json(self, filename, jsonfile):
+        filename += '.json'
+        with open(filename, 'w') as json_file:
+            json.dump(jsonfile, json_file)
 
     def get_latest_news(self, soup: BeautifulSoup):
         # res = requests.get(os.path.join(self.base_url, "international"), headers=headers)
@@ -79,9 +87,9 @@ class GuardianSpider(object):
             categories.append(data_menubar)
 
         # return hasil
-        print("Generate URL")
-        with open('categories.json', 'w') as json_file:
-            json.dump(categories, json_file)
+        # print("Generate URL")
+        # with open('categories.json', 'w') as json_file:
+        #     json.dump(categories, json_file)
 
         return categories
 

@@ -1,6 +1,6 @@
 # use for run program
 # import os
-import json
+# import json
 
 from .scraper import GuardianSpider
 
@@ -13,6 +13,10 @@ class Run(object):
         # soup = self.spider.get_response(os.path.join(self.spider.base_url, "international"))
         soup = self.spider.make_soup("international")
         categories = self.spider.get_category(soup)
+
+        # membuat file json
+        self.spider.make_json("categories", categories)
+
         print(categories)
 
     # tinggal di copas dan rubah category dan link
@@ -22,7 +26,8 @@ class Run(object):
         by_category = self.spider.get_news_by_category(soup)
 
         # membuat file json
-        with open('news_by_category_opinion.json', 'w') as json_file:
-            json.dump(by_category, json_file)
+        # with open('news_by_category_opinion.json', 'w') as json_file:
+        #     json.dump(by_category, json_file)
+        self.spider.make_json("opinion", by_category)
 
         print(by_category)
